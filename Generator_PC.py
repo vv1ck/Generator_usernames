@@ -1,4 +1,4 @@
-import random
+import random , os , time
 import string
 import sys
 from ctypes import byref, c_int, windll
@@ -7,11 +7,8 @@ from pathlib import Path
 
 LETTERS = string.ascii_lowercase
 DIGITS = string.digits
-
-# Dot is never allowed at the start or end.
 START_END_CHARS = LETTERS + DIGITS + "_"
 MIDDLE_CHARS = LETTERS + DIGITS + "_."
-
 OUTPUT_FILES = {
     1: "usernames_2_chars.txt",
     2: "usernames_3_chars.txt",
@@ -30,19 +27,17 @@ class UI:
     RED = "\033[91m"
     MAGENTA = "\033[95m"
     DIM = "\033[2m"
-
     @classmethod
     def init_colors(cls) -> None:
         if sys.platform != "win32":
             return
         try:
             kernel32 = windll.kernel32
-            handle = kernel32.GetStdHandle(-11)  # STD_OUTPUT_HANDLE
+            handle = kernel32.GetStdHandle(-11) 
             mode = c_int()
             if kernel32.GetConsoleMode(handle, byref(mode)):
                 kernel32.SetConsoleMode(handle, mode.value | 0x0004)
-        except Exception:
-            # Fallback to plain text if ANSI is not supported.
+        except Exception: 
             cls.RESET = ""
             cls.BOLD = ""
             cls.CYAN = ""
@@ -55,7 +50,8 @@ class UI:
 
     @classmethod
     def banner(cls) -> None:
-        print()
+        time.sleep(0.2)
+        os.system('cls' if os.name == 'nt' else 'clear')
         print(f"{cls.CYAN}{cls.BOLD}{'=' * 60}{cls.RESET}")
         print(f"{cls.CYAN}{cls.BOLD}                 Username Generator Pro                 {cls.RESET}")
         print(f"{cls.CYAN}{cls.BOLD}{'=' * 60}{cls.RESET}")
