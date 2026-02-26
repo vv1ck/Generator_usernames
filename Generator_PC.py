@@ -177,9 +177,11 @@ def get_advanced_mode_for_len_3_or_4() -> int:
         if mode in {"1", "2"}:
             return int(mode)
         UI.error("Invalid option. Please choose 1 or 2.")
+
+
 def main() -> None:
-    UI.init_colors()
-    base_dir = Path(__file__).resolve().parent
+    UI.init_colors() 
+    base_dir = Path.cwd()
     while True:
         choice = get_main_choice()
         if choice == 5:
@@ -238,7 +240,7 @@ def main() -> None:
 
         UI.section("Generation Result")
         UI.success(f"Generated {len(new_usernames)} usernames.")
-        UI.info(f"Saved to: {output_file.name}")
+        UI.info(f"Saved to: {output_file}")
         UI.info(f"Elapsed time: {elapsed:.3f} seconds")
         if len(new_usernames) < count:
             UI.warning(
